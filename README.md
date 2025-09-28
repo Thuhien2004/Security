@@ -30,5 +30,11 @@ Cài đặt thuật toán mã hoá và giải mã bằng code C++ và bằng htm
 --> Kết quả của Brout - force
 
 ## AFFINE
+Các kết quả :
+
+<img width="605" height="141" alt="image" src="https://github.com/user-attachments/assets/10914ea9-e247-4da5-9029-7c8a4e19760e" />
+
+--> mã hóa giải mã bằng code c++
+
 
 
