@@ -36,5 +36,47 @@ Các kết quả :
 
 --> mã hóa giải mã bằng code c++
 
+<img width="706" height="627" alt="image" src="https://github.com/user-attachments/assets/c7458621-e177-4bec-ac53-5ee7bc42e381" />
 
+ -> mã hóa bằng code html
+ 
+<img width="740" height="639" alt="image" src="https://github.com/user-attachments/assets/aba700c2-56b7-4bdc-bad7-14d7e2d16895" />
+
+-> giải mã bằng code html
+
+## HOÁN VỊ 
+
+Các hình ảnh hiển thị kết quả:
+
+ <img width="775" height="344" alt="image" src="https://github.com/user-attachments/assets/de21a924-ce76-4016-be34-cc1276bab7ac" />
+
+--> kết quả của mã hóa bằng C++
+
+<img width="563" height="250" alt="image" src="https://github.com/user-attachments/assets/65304e18-498f-4313-a3c2-2f516481ea44" />
+
+--> Kết quả hoán vị giải mã bằng C++
+
+<img width="699" height="663" alt="image" src="https://github.com/user-attachments/assets/c9c18f4c-b5e5-498e-a589-441a13e3577d" />
+
+--> Kết quả hoán vị mã hóa bằng html
+
+<img width="725" height="685" alt="image" src="https://github.com/user-attachments/assets/f4432db9-84c1-4fff-b91f-c2b87fa7c29f" />
+
+--> Kết quả hoán vị giải mã bằng html
+
+## VIGENERRE
+
+Các kết quả hiển thị
+
+<img width="816" height="308" alt="image" src="https://github.com/user-attachments/assets/56e1e598-8988-4c11-a53c-31bafdd7002c" />
+
+-> mã hóa bằng code C++
+
+
+
+
+
+
+
+ 
 
