@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Playfair Cipher</title>
+<style>
+body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
+.container { max-width: 600px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
+h2 { text-align: center; color: #333; }
+input, button { width: 100%; padding: 8px; margin: 5px 0; border-radius: 4px; border: 1px solid #ccc; box-sizing: border-box;}
+button { cursor: pointer; background-color: #4CAF50; color: white; border: none;}
+button:hover { background-color: #45a049;}
+label { font-weight: bold; margin-top: 10px; display: block; }
+#result { margin-top: 10px; padding: 10px; background: #e0e0e0; border-radius: 4px; word-break: break-word; }
+.table5x5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-top: 10px;}
+.cell { background: #ddd; text-align: center; padding: 10px; border-radius: 4px; font-weight: bold;}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>Playfair Cipher</h2>
+
+<label>Key (khóa):</label>
+<input type="text" id="key" placeholder="Nhập khóa...">
+
+<button onclick="generateTable()">Tạo bảng 5x5</button>
+
+<div id="tableContainer" class="table5x5"></div>
+
+<label>Văn bản:</label>
+<input type="text" id="text" placeholder="Nhập văn bản...">
+
+<button onclick="encryptText()">Mã hóa</button>
+<button onclick="decryptText()">Giải mã</button>
+
+<h3>Kết quả:</h3>
+<p id="result"></p>
+</div>
+
+<script>
+let table = [];
+
+function prepareKey(key) {
+    let res = '';
+    let seen = new Set();
+    key = key.toUpperCase();
+    for (let c of key) {
+        if (c<'A'||c>'Z') continue;
+        if (c=='J') c='I';
+        if (!seen.has(c)) { res+=c; seen.add(c); }
+    }
+    for (let c='A'.charCodeAt(0); c<='Z'.charCodeAt(0); c++) {
+        let ch = String.fromCharCode(c);
+        if (ch=='J') continue;
+        if (!seen.has(ch)) res+=ch;
+    }
+    return res;
+}
+
+function generateTable() {
+    let key = document.getElementById('key').value;
+    if (!key) { alert("Nhập khóa!"); return; }
+    let key25 = prepareKey(key);
+    table = [];
+    for (let i=0;i<5;i++){
+        table[i] = [];
+        for (let j=0;j<5;j++){
+            table[i][j] = key25[i*5+j];
+        }
+    }
+    let container = document.getElementById('tableContainer');
+    container.innerHTML = '';
+    for (let i=0;i<5;i++){
+        for (let j=0;j<5;j++){
+            let cell = document.createElement('div');
+            cell.className='cell';
+            cell.innerText=table[i][j];
+            container.appendChild(cell);
+        }
+    }
+}
+
+function findPos(c) {
+    if (c=='J') c='I';
+    for (let i=0;i<5;i++)
+        for (let j=0;j<5;j++)
+            if (table[i][j]==c) return [i,j];
+    return [-1,-1];
+}
+
+function prepareText(text) {
+    let res='';
+    for (let c of text) {
+        if (/[a-zA-Z]/.test(c)) {
+            c=c.toUpperCase();
+            if (c=='J') c='I';
+            res+=c;
+        }
+    }
+    let finalText='';
+    for (let i=0;i<res.length;i++){
+        finalText+=res[i];
+        if (i+1<res.length && res[i]==res[i+1]) finalText+='X';
+    }
+    if (finalText.length%2!=0) finalText+='X';
+    return finalText;
+}
+
+function encryptPair(a,b){
+    let [r1,c1] = findPos(a);
+    let [r2,c2] = findPos(b);
+    if (r1==r2) return table[r1][(c1+1)%5]+table[r2][(c2+1)%5];
+    else if (c1==c2) return table[(r1+1)%5][c1]+table[(r2+1)%5][c2];
+    else return table[r1][c2]+table[r2][c1];
+}
+
+function decryptPair(a,b){
+    let [r1,c1] = findPos(a);
+    let [r2,c2] = findPos(b);
+    if (r1==r2) return table[r1][(c1+4)%5]+table[r2][(c2+4)%5];
+    else if (c1==c2) return table[(r1+4)%5][c1]+table[(r2+4)%5][c2];
+    else return table[r1][c2]+table[r2][c1];
+}
+
+function encryptText(){
+    let text=document.getElementById('text').value;
+    if (!table.length) { alert("Tạo bảng trước!"); return; }
+    text=prepareText(text);
+    let cipher='';
+    for (let i=0;i<text.length;i+=2) cipher+=encryptPair(text[i],text[i+1]);
+    document.getElementById('result').innerText=cipher;
+}
+
+function decryptText(){
+    let text=document.getElementById('text').value.toUpperCase();
+    if (!table.length) { alert("Tạo bảng trước!"); return; }
+    let plain='';
+    for (let i=0;i<text.length;i+=2) plain+=decryptPair(text[i],text[i+1]);
+    document.getElementById('result').innerText=plain;
+}
+</script>
+
+</body>
+</html>
