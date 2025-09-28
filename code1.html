@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Vigenère Cipher</title>
+<style>
+body { font-family: Arial, sans-serif; background: #f0f0f0; padding: 20px; }
+.container { max-width: 500px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+h2 { text-align: center; color: #333; }
+input, button { width: 100%; padding: 8px; margin: 5px 0; box-sizing: border-box; border-radius: 4px; border: 1px solid #ccc; }
+button { cursor: pointer; background-color: #4CAF50; color: white; border: none; }
+button:hover { background-color: #45a049; }
+label { font-weight: bold; margin-top: 10px; display: block; }
+#result { margin-top: 10px; padding: 10px; background: #e0e0e0; border-radius: 4px; word-break: break-word; }
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>Vigenère Cipher</h2>
+
+<label>Văn bản:</label>
+<input type="text" id="text" placeholder="Nhập văn bản...">
+
+<label>Khóa (Key):</label>
+<input type="text" id="key" placeholder="Nhập khóa...">
+
+<button onclick="encryptText()">Mã hóa</button>
+<button onclick="decryptText()">Giải mã</button>
+
+<h3>Kết quả:</h3>
+<p id="result"></p>
+</div>
+
+<script>
+// Chuyển ký tự A-Z/a-z thành số 0-25
+function charToNum(c) {
+    if (c >= 'A' && c <= 'Z') return c.charCodeAt(0) - 65;
+    if (c >= 'a' && c <= 'z') return c.charCodeAt(0) - 97;
+    return -1;
+}
+
+// Chuyển số 0-25 thành ký tự, giữ chữ hoa/chữ thường
+function numToChar(n, isUpper=true) {
+    return String.fromCharCode((isUpper ? 65 : 97) + n);
+}
+
+// Mã hóa
+function encryptText() {
+    let text = document.getElementById('text').value;
+    let key = document.getElementById('key').value;
+    if (!key) { alert("Nhập khóa!"); return; }
+
+    let cipher = '';
+    let j = 0;
+    for (let i = 0; i < text.length; i++) {
+        let p = charToNum(text[i]);
+        if (p != -1) {
+            let k = charToNum(key[j % key.length]);
+            let c = (p + k) % 26;
+            cipher += (text[i] >= 'A' && text[i] <= 'Z') ? numToChar(c,true) : numToChar(c,false);
+            j++;
+        } else {
+            cipher += text[i];
+        }
+    }
+    document.getElementById('result').innerText = cipher;
+}
+
+// Giải mã
+function decryptText() {
+    let text = document.getElementById('text').value;
+    let key = document.getElementById('key').value;
+    if (!key) { alert("Nhập khóa!"); return; }
+
+    let plain = '';
+    let j = 0;
+    for (let i = 0; i < text.length; i++) {
+        let c = charToNum(text[i]);
+        if (c != -1) {
+            let k = charToNum(key[j % key.length]);
+            let p = (c - k + 26) % 26;
+            plain += (text[i] >= 'A' && text[i] <= 'Z') ? numToChar(p,true) : numToChar(p,false);
+            j++;
+        } else {
+            plain += text[i];
+        }
+    }
+    document.getElementById('result').innerText = plain;
+}
+</script>
+
+</body>
+</html>
