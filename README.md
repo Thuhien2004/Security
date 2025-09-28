@@ -16,4 +16,15 @@ Cài đặt thuật toán mã hoá và giải mã bằng code C++ và bằng htm
 ----------------------------------------------------------------------------------------------------------------------------------
 ## caesar
 ảnh hiển thị các kết quả:
+
 <img width="590" height="293" alt="image" src="https://github.com/user-attachments/assets/6b1fc395-6ff4-4173-85d3-504634570fa0" />
+
+-> Kết quả của mã hóa
+
+<img width="534" height="268" alt="image" src="https://github.com/user-attachments/assets/0bab2c54-fdcd-4913-9344-9c2ae8dabec1" />
+
+-> Kết quả của giải mã
+
+<img width="601" height="688" alt="image" src="https://github.com/user-attachments/assets/524b2721-ee1e-407e-881e-03e98c8f97da" />
+
+--> Kết quả của Brout - force
