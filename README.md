@@ -72,6 +72,49 @@ Các kết quả hiển thị
 
 -> mã hóa bằng code C++
 
+ <img width="750" height="282" alt="image" src="https://github.com/user-attachments/assets/bc40ee7a-6141-4f62-9e48-149db3c530cd" />
+
+ --> Giai mã bằng code C++
+
+<img width="705" height="563" alt="image" src="https://github.com/user-attachments/assets/5de26573-0f97-42d3-8f74-88ed4978157a" />
+
+--> mã hóa bằng code html
+
+<img width="718" height="558" alt="image" src="https://github.com/user-attachments/assets/6cd01b83-dd1e-4186-8943-93dc119ee6f3" />
+
+--> giải mã bằng code html
+
+## PLAYFAIR
+
+Các kết quả hiển thị:
+
+<img width="782" height="449" alt="image" src="https://github.com/user-attachments/assets/53b8cef2-cfe0-481b-971f-0badbf909c9b" />
+
+--> mã hóa bằng C++
+
+<img width="702" height="423" alt="image" src="https://github.com/user-attachments/assets/6585a297-df48-4590-bb6a-d24ecdadec22" />
+
+--> giải mã bằng C++
+
+<img width="834" height="912" alt="image" src="https://github.com/user-attachments/assets/4a6da1d7-b753-4369-8b98-e8171f80b24c" />
+
+--> Mã hóa bằng html
+
+<img width="839" height="904" alt="image" src="https://github.com/user-attachments/assets/b413a4d3-59db-4597-a49a-30dde86f2e9d" />
+
+--> giải mã bằng html
+
+
+
+
+
+
+
+
+
+ 
+
+
 
 
 
