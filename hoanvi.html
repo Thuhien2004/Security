@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Permutation Cipher</title>
+<style>
+body { font-family: Arial, sans-serif; background: #f0f0f0; padding: 20px; }
+.container { max-width: 500px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+h2 { text-align: center; color: #333; }
+input, button { width: 100%; padding: 8px; margin: 5px 0; box-sizing: border-box; border-radius: 4px; border: 1px solid #ccc; }
+button { cursor: pointer; background-color: #4CAF50; color: white; border: none; }
+button:hover { background-color: #45a049; }
+label { font-weight: bold; margin-top: 10px; display: block; }
+#result { margin-top: 10px; padding: 10px; background: #e0e0e0; border-radius: 4px; word-break: break-word; }
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>Permutation Cipher</h2>
+
+<label>Văn bản:</label>
+<input type="text" id="text" placeholder="Nhập văn bản...">
+
+<label>Hoán vị (ví dụ: 3 1 4 2):</label>
+<input type="text" id="perm" placeholder="Nhập hoán vị...">
+
+<label>Ký tự padding (mặc định X):</label>
+<input type="text" id="pad" maxlength="1" placeholder="X">
+
+<button onclick="encryptText()">Mã hóa</button>
+<button onclick="decryptText()">Giải mã</button>
+
+<h3>Kết quả:</h3>
+<p id="result"></p>
+</div>
+
+<script>
+// Hàm parse hoán vị từ chuỗi "3 1 4 2"
+function parsePermutation(str) {
+    return str.split(/[\s,]+/).map(Number).filter(n => n > 0);
+}
+
+// Kiểm tra hoán vị hợp lệ
+function isValidPermutation(P) {
+    let n = P.length;
+    let seen = Array(n+1).fill(false);
+    for (let x of P) {
+        if (x < 1 || x > n) return false;
+        if (seen[x]) return false;
+        seen[x] = true;
+    }
+    return true;
+}
+
+// Tạo nghịch đảo hoán vị
+function inversePermutation(P) {
+    let n = P.length;
+    let inv = Array(n);
+    for (let i = 0; i < n; i++) {
+        inv[P[i]-1] = i+1;
+    }
+    return inv;
+}
+
+// Chia văn bản thành block, padding nếu cần
+function splitBlocks(text, n, padChar) {
+    let blocks = [];
+    for (let i = 0; i < text.length; i += n) {
+        let block = text.slice(i, i+n);
+        if (block.length < n) block += padChar.repeat(n - block.length);
+        blocks.push(block);
+    }
+    return blocks;
+}
+
+// Mã hóa block
+function encryptBlock(block, P) {
+    let out = '';
+    for (let i = 0; i < P.length; i++) {
+        out += block[P[i]-1];
+    }
+    return out;
+}
+
+// Giải mã block
+function decryptBlock(block, invP) {
+    let out = '';
+    for (let i = 0; i < invP.length; i++) {
+        out += block[invP[i]-1];
+    }
+    return out;
+}
+
+// Mã hóa toàn văn
+function encryptText() {
+    let text = document.getElementById('text').value;
+    let permStr = document.getElementById('perm').value;
+    let padChar = document.getElementById('pad').value || 'X';
+
+    let P = parsePermutation(permStr);
+    if (!isValidPermutation(P)) {
+        alert("Hoán vị không hợp lệ!");
+        return;
+    }
+
+    let blocks = splitBlocks(text, P.length, padChar);
+    let cipher = blocks.map(b => encryptBlock(b, P)).join('');
+    document.getElementById('result').innerText = cipher;
+}
+
+// Giải mã toàn văn
+function decryptText() {
+    let text = document.getElementById('text').value;
+    let permStr = document.getElementById('perm').value;
+
+    let P = parsePermutation(permStr);
+    if (!isValidPermutation(P)) {
+        alert("Hoán vị không hợp lệ!");
+        return;
+    }
+
+    let invP = inversePermutation(P);
+    let blocks = splitBlocks(text, P.length, 'X'); // padding không quan trọng khi giải mã
+    let plain = blocks.map(b => decryptBlock(b, invP)).join('');
+    document.getElementById('result').innerText = plain;
+}
+</script>
+
+</body>
+</html>
