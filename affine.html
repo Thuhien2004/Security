@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Affine Cipher</title>
+<style>
+body { font-family: Arial, sans-serif; background: #f0f0f0; padding: 20px; }
+h2 { color: #333; }
+.container { background: #fff; padding: 20px; border-radius: 8px; max-width: 500px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+input, button { margin: 5px 0; padding: 8px; width: 100%; box-sizing: border-box; border-radius: 4px; border: 1px solid #ccc; }
+button { cursor: pointer; background-color: #4CAF50; color: white; border: none; }
+button:hover { background-color: #45a049; }
+label { font-weight: bold; }
+#result { margin-top: 10px; padding: 10px; background: #e0e0e0; border-radius: 4px; word-break: break-word; }
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>Affine Cipher</h2>
+
+<label>Văn bản:</label>
+<input type="text" id="text" placeholder="Nhập văn bản...">
+
+<label>Khóa a (cùng nguyên tố với 26):</label>
+<input type="number" id="a" placeholder="Nhập a">
+
+<label>Khóa b:</label>
+<input type="number" id="b" placeholder="Nhập b">
+
+<button onclick="encrypt()">Mã hóa</button>
+<button onclick="decrypt()">Giải mã</button>
+
+<h3>Kết quả:</h3>
+<p id="result"></p>
+</div>
+
+<script>
+function modInverse(a, m) {
+    a = a % m;
+    for (let x = 1; x < m; x++) {
+        if ((a * x) % m === 1) return x;
+    }
+    return -1;
+}
+
+function affineEncrypt(text, a, b) {
+    let result = '';
+    for (let c of text) {
+        if (c.match(/[A-Z]/)) {
+            result += String.fromCharCode((a * (c.charCodeAt(0) - 65) + b) % 26 + 65);
+        } else if (c.match(/[a-z]/)) {
+            result += String.fromCharCode((a * (c.charCodeAt(0) - 97) + b) % 26 + 97);
+        } else {
+            result += c; // giữ nguyên ký tự không phải chữ
+        }
+    }
+    return result;
+}
+
+function affineDecrypt(text, a, b) {
+    let result = '';
+    let a_inv = modInverse(a, 26);
+    if (a_inv === -1) return "Không tìm được nghịch đảo của a modulo 26!";
+    for (let c of text) {
+        if (c.match(/[A-Z]/)) {
+            let x = (a_inv * ((c.charCodeAt(0) - 65 - b + 26)) % 26);
+            result += String.fromCharCode(x + 65);
+        } else if (c.match(/[a-z]/)) {
+            let x = (a_inv * ((c.charCodeAt(0) - 97 - b + 26)) % 26);
+            result += String.fromCharCode(x + 97);
+        } else {
+            result += c;
+        }
+    }
+    return result;
+}
+
+function encrypt() {
+    let text = document.getElementById('text').value;
+    let a = parseInt(document.getElementById('a').value);
+    let b = parseInt(document.getElementById('b').value);
+    document.getElementById('result').innerText = affineEncrypt(text, a, b);
+}
+
+function decrypt() {
+    let text = document.getElementById('text').value;
+    let a = parseInt(document.getElementById('a').value);
+    let b = parseInt(document.getElementById('b').value);
+    document.getElementById('result').innerText = affineDecrypt(text, a, b);
+}
+</script>
+
+</body>
+</html>
